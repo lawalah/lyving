@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lyving Coliving</title>
+<style>
+:root{
+  --ink:#1a1a17;
+  --paper:#f5f1e8;
+  --sand:#e8e0d0;
+  --clay:#c8542f;
+  --clay-deep:#a53f1f;
+  --sage:#5a6b52;
+  --gold:#d9a441;
+  --line:#ddd3bf;
+  --muted:#6b6459;
+  --shadow:0 20px 50px -20px rgba(40,30,15,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Georgia","Times New Roman",serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+.sans{font-family:"Helvetica Neue",Arial,sans-serif}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 6vw;
+  background:rgba(245,241,232,.82);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  transition:padding .3s ease;
+}
+.logo{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-weight:800;font-size:24px;letter-spacing:-.03em;
+  color:var(--ink);text-decoration:none;
+  display:flex;align-items:center;gap:9px;
+}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--clay);display:inline-block}
+.navlinks{display:flex;gap:32px;align-items:center}
+.navlinks a{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:14px;font-weight:500;letter-spacing:.01em;
+  color:var(--ink);text-decoration:none;position:relative;
+}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1.5px;background:var(--clay);transition:width .3s}
+.navlinks a:hover::after{width:100%}
+.nav-cta{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  background:var(--ink);color:var(--paper);
+  padding:11px 22px;border-radius:40px;font-size:14px;font-weight:600;
+  text-decoration:none;transition:background .3s,transform .3s;
+}
+.nav-cta:hover{background:var(--clay);transform:translateY(-1px)}
+.nav-cta::after{display:none}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+.burger span{width:26px;height:2px;background:var(--ink);display:block}
+.hero{
+  min-height:100vh;position:relative;
+  display:grid;grid-template-columns:1.05fr .95fr;
+  align-items:center;padding:120px 6vw 60px;gap:50px;
+}
+.hero-copy{position:relative;z-index:2}
+.eyebrow{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:13px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--clay);font-weight:700;margin-bottom:24px;
+  display:flex;align-items:center;gap:12px;
+}
+.eyebrow::before{content:"";width:36px;height:1.5px;background:var(--clay)}
+.hero h1{
+  font-size:clamp(48px,7vw,88px);line-height:.98;
+  letter-spacing:-.03em;font-weight:400;margin-bottom:28px;
+}
+.hero h1 em{font-style:italic;color:var(--clay)}
+.hero p{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:18px;color:var(--muted);max-width:460px;margin-bottom:38px;line-height:1.7;
+}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  background:var(--clay);color:#fff;padding:16px 34px;border-radius:44px;
+  font-size:15px;font-weight:600;text-decoration:none;
+  transition:background .3s,transform .3s,box-shadow .3s;
+  box-shadow:0 12px 30px -12px rgba(200,84,47,.6);
+}
+.btn-primary:hover{background:var(--clay-deep);transform:translateY(-2px)}
+.btn-ghost{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  border:1.5px solid var(--ink);color:var(--ink);padding:16px 30px;border-radius:44px;
+  font-size:15px;font-weight:600;text-decoration:none;transition:.3s;
+  display:flex;align-items:center;gap:8px;
+}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.hero-visual{position:relative;height:78vh;min-height:520px}
+.frame{
+  position:absolute;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);
+  background:var(--sand);
+}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.f1{top:0;left:8%;width:60%;height:56%;z-index:2}
+.f2{bottom:6%;left:0;width:46%;height:42%;z-index:3}
+.f3{bottom:0;right:0;width:44%;height:52%;z-index:2}
+.badge-float{
+  position:absolute;top:44%;right:2%;z-index:4;
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:14px;padding:16px 20px;box-shadow:var(--shadow);
+  font-family:"Helvetica Neue",Arial,sans-serif;
+}
+.badge-float .big{font-size:30px;font-weight:800;color:var(--clay);letter-spacing:-.02em}
+.badge-float .sm{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.marquee{
+  background:var(--ink);color:var(--paper);overflow:hidden;padding:16px 0;
+  white-space:nowrap;
+}
+.marquee-track{display:inline-block;animation:scroll 26s linear infinite}
+.marquee span{
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:15px;
+  letter-spacing:.12em;text-transform:uppercase;margin:0 26px;font-weight:500;
+}
+.marquee .star{color:var(--gold)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+section{padding:110px 6vw}
+.sec-head{max-width:640px;margin-bottom:64px}
+.sec-head .eyebrow{margin-bottom:18px}
+.sec-head h2{font-size:clamp(34px,4.5vw,54px);line-height:1.05;letter-spacing:-.02em;font-weight:400}
+.sec-head h2 em{font-style:italic;color:var(--clay)}
+.stats{background:var(--sand);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+.stat{text-align:center;padding:20px 10px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat .num{font-size:clamp(40px,5vw,62px);font-weight:400;letter-spacing:-.02em;color:var(--ink)}
+.stat .num em{font-style:italic;color:var(--clay)}
+.stat .lbl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:36px 30px;
+  transition:transform .35s,box-shadow .35s;position:relative;overflow:hidden;
+}
+.card::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--clay);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.card:hover::before{transform:scaleX(1)}
+.card .ico{
+  width:52px;height:52px;border-radius:12px;background:var(--paper);
+  display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:22px;
+}
+.card h3{font-size:23px;font-weight:400;margin-bottom:12px;letter-spacing:-.01em}
+.card p{font-family:"Helvetica Neue",Arial,sans-serif;font-size:15px;color:var(--muted);line-height:1.65}
+.loc{background:var(--ink);color:var(--paper)}
+.loc .eyebrow{color:var(--gold)}
+.loc .eyebrow::before{background:var(--gold)}
+.loc .sec-head h2 em{color:var(--gold)}
+.loc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.loc-card{
+  position:relative;border-radius:14px;overflow:hidden;height:340px;
+  cursor:pointer;
+}
+.loc-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.loc-card:hover img{transform:scale(1.08)}
+.loc-card .overlay{
+  position:absolute;inset:0;background:linear-gradient(to top,rgba(20,18,15,.85),transparent 60%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:24px;
+}
+.loc-card h3{font-size:26px;font-weight:400;color:#fff}
+.loc-card .price{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:var(--gold);letter-spacing:.04em;margin-top:4px}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.quote{
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:34px 30px;
+  position:relative;
+}
+.quote .mark{font-size:64px;color:var(--sand);line-height:.6;font-family:Georgia,serif}
+.quote p{font-size:17px;font-style:italic;margin:8px 0 22px;line-height:1.6}
+.quote .who{display:flex;align-items:center;gap:12px}
+.quote .av{width:42px;height:42px;border-radius:50%;background:var(--clay);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:16px}
+.quote .name{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:600;font-size:15px}
+.quote .role{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--muted)}
+.proc{background:var(--sand);border-top:1px solid var(--line)}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:step}
+.step{position:relative;padding-top:30px}
+.step .n{
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:15px;font-weight:800;
+  color:#fff;background:var(--clay);width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+}
+.step h3{font-size:22px;font-weight:400;margin-bottom:10px}
+.step p{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:var(--muted)}
+.step::after{content:"";position:absolute;top:49px;left:38px;right:-10px;height:1.5px;background:var(--line)}
+.step:last-child::after{display:none}
+.cta{
+  background:var(--clay);color:#fff;text-align:center;
+  border-radius:0;position:relative;overflow:hidden;
+}
+.cta h2{font-size:clamp(36px,5vw,64px);font-weight:400;line-height:1.02;letter-spacing:-.02em;margin-bottom:22px}
+.cta h2 em{font-style:italic}
+.cta p{font-family:"Helvetica Neue",Arial,sans-serif;font-size:18px;opacity:.92;max-width:520px;margin:0 auto 36px}
+.cta .btn-primary{background:#fff;color:var(--clay);box-shadow:0 12px 30px -12px rgba(0,0,0,.4)}
+.cta .btn-primary:hover{background:var(--ink);color:#fff}
+footer{background:var(--ink);color:var(--paper);padding:70px 6vw 90px}
+.foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.14)}
+.foot-brand .logo{color:var(--paper);margin-bottom:16px}
+.foot-brand p{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:#a9a094;max-width:280px}
+.foot-col h4{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.foot-col a{display:block;font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:#c9c0b4;text-decoration:none;margin-bottom:10px;transition:color .3s}
+.foot-col a:hover{color:#fff}
+.foot-bottom{padding-top:26px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:#8a8177;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:900px){
+  .navlinks{display:none}
+  .burger{display:flex}
+  .hero{grid-template-columns:1fr;padding-top:110px}
+  .hero-visual{height:60vh;order:-1;display:none}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(2){border-right:none}
+  .why-grid,.testi-grid{grid-template-columns:1fr}
+  .loc-grid{grid-template-columns:repeat(2,1fr)}
+  .proc-grid{grid-template-columns:1fr}
+  .step::after{display:none}
+  .foot-top{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="logo"><span class="dot"></span>lyving</a>
+  <div class="navlinks">
+    <a href="#why">Why Lyving</a>
+    <a href="#locations">Locations</a>
+    <a href="#process">How It Works</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#contact" class="nav-cta">Book a Viewing</a>
+  </div>
+  <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<header class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">Premium Coliving</div>
+    <h1>A room that<br>feels like<br><em>living well.</em></h1>
+    <p>Beautifully furnished private rooms, all-inclusive utilities, and a management team that actually cares. Coliving designed for the modern professional.</p>
+    <div class="hero-btns">
+      <a href="#locations" class="btn-primary">Browse Rooms</a>
+      <a href="#process" class="btn-ghost">How it works →</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="frame f1"><img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80" alt="Cozy furnished bedroom"></div>
+    <div class="frame f2"><img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=600&q=80" alt="Modern kitchen"></div>
+    <div class="frame f3"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80" alt="Bright living space"></div>
+    <div class="badge-float">
+      <div class="big">100%</div>
+      <div class="sm">Private rooms</div>
+    </div>
+  </div>
+</header>
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="star">✦</span><span>All-Inclusive Rent</span><span class="star">✦</span><span>100 Mbps Wi-Fi</span><span class="star">✦</span><span>Fully Furnished</span><span class="star">✦</span><span>Bi-Weekly Housekeeping</span><span class="star">✦</span><span>3-Tier Security</span><span class="star">✦</span><span>Dedicated Support</span>
+    <span class="star">✦</span><span>All-Inclusive Rent</span><span class="star">✦</span><span>100 Mbps Wi-Fi</span><span class="star">✦</span><span>Fully Furnished</span><span class="star">✦</span><span>Bi-Weekly Housekeeping</span><span class="star">✦</span><span>3-Tier Security</span><span class="star">✦</span><span>Dedicated Support</span>
+  </div>
+</div>
+<section class="stats">
+  <div class="stats-grid reveal">
+    <div class="stat"><div class="num">1<em>2</em>00+</div><div class="lbl">Rooms</div></div>
+    <div class="stat"><div class="num">3<em>6</em></div><div class="lbl">Condominiums</div></div>
+    <div class="stat"><div class="num">1<em>1</em>00+</div><div class="lbl">Happy Tenants</div></div>
+    <div class="stat"><div class="num">20<em>22</em></div><div class="lbl">Operating Since</div></div>
+  </div>
+</section>
+<section id="why">
+  <div class="sec-head reveal">
+    <div class="eyebrow">Why Lyving</div>
+    <h2>Everything sorted, so you can just <em>live.</em></h2>
+  </div>
+  <div class="why-grid">
+    <div class="card reveal"><div class="ico">🛋️</div><h3>All-Inclusive Living</h3><p>Your monthly rent covers interior design, furniture, 100 Mbps Wi-Fi, and every utility bill, plus a monthly air-conditioning credit. One payment, zero surprises.</p></div>
+    <div class="card reveal"><div class="ico">🔒</div><h3>Privacy &amp; Exclusivity</h3><p>100% private rooms for single occupants. Units are single-gender for comfort, with limited master rooms available for couples.</p></div>
+    <div class="card reveal"><div class="ico">🛡️</div><h3>Security &amp; Peace</h3><p>3-tier access-card security and clear house rules, including quiet hours after 11 PM, so every home stays calm and respectful.</p></div>
+    <div class="card reveal"><div class="ico">🧽</div><h3>Professional Housekeeping</h3><p>Our in-house team cleans shared areas, kitchens, and bathrooms every two weeks. Maintain a high standard without lifting a finger.</p></div>
+    <div class="card reveal"><div class="ico">💬</div><h3>Dedicated Support</h3><p>A dedicated Property Manager is one message away for repairs, maintenance, or anything else, any day of the week.</p></div>
+    <div class="card reveal"><div class="ico">📲</div><h3>Smart Living App</h3><p>Pay rent, monitor smart-meter usage, and log requests from one seamless app. Everything transparent, everything tracked.</p></div>
+  </div>
+</section>
+<section id="locations" class="loc">
+  <div class="sec-head reveal">
+    <div class="eyebrow">Our Locations</div>
+    <h2>Prime addresses across <em>Kuala Lumpur.</em></h2>
+  </div>
+  <div class="loc-grid">
+    <div class="loc-card reveal"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80" alt="Cheras high-rise"><div class="overlay"><h3>Cheras</h3><div class="price">From RM 750 / month</div></div></div>
+    <div class="loc-card reveal"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Kelana Jaya building"><div class="overlay"><h3>Kelana Jaya</h3><div class="price">From RM 820 / month</div></div></div>
+    <div class="loc-card reveal"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80" alt="Setapak tower"><div class="overlay"><h3>Setapak</h3><div class="price">From RM 690 / month</div></div></div>
+    <div class="loc-card reveal"><img src="https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?w=600&q=80" alt="Seri Kembangan residence"><div class="overlay"><h3>Seri Kembangan</h3><div class="price">From RM 710 / month</div></div></div>
+  </div>
+</section>
+<section id="testimonials">
+  <div class="sec-head reveal">
+    <div class="eyebrow">Tenant Reviews</div>
+    <h2>People who found their <em>place.</em></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="quote reveal"><div class="mark">”</div><p>The app makes everything seamless. Paying rent and tracking utilities is effortless, and living here just feels easy.</p><div class="who"><div class="av">S</div><div><div class="name">Shahmi</div><div class="role">Tenant, Cheras</div></div></div></div>
+    <div class="quote reveal"><div class="mark">”</div><p>The admin team is polite, cooperative, and incredibly efficient. A reliable support system makes all the difference.</p><div class="who"><div class="av">A</div><div><div class="name">Azman</div><div class="role">Tenant, Setapak</div></div></div></div>
+    <div class="quote reveal"><div class="mark">”</div><p>Clear ground rules, designated fridge space, bi-weekly cleaning, and fast Wi-Fi make shared living genuinely comfortable.</p><div class="who"><div class="av">P</div><div><div class="name">Pavithra</div><div class="role">Tenant, Kelana Jaya</div></div></div></div>
+  </div>
+</section>
+<section id="process" class="proc">
+  <div class="sec-head reveal">
+    <div class="eyebrow">How It Works</div>
+    <h2>From browsing to <em>moving in.</em></h2>
+  </div>
+  <div class="proc-grid">
+    <div class="step reveal"><div class="n">1</div><h3>Check Rooms</h3><p>Browse available rooms by location, budget, and move-in date.</p></div>
+    <div class="step reveal"><div class="n">2</div><h3>Arrange Viewing</h3><p>Message our team to schedule a tour, in person or virtually.</p></div>
+    <div class="step reveal"><div class="n">3</div><h3>Book Room</h3><p>Reserve your room and sign digitally in minutes, no paperwork.</p></div>
+    <div class="step reveal"><div class="n">4</div><h3>Move In</h3><p>Collect your access card and settle into a fully furnished home.</p></div>
+  </div>
+</section>
+<section id="contact" class="cta">
+  <div class="reveal">
+    <h2>Ready to find your <em>room?</em></h2>
+    <p>Contact our Tenant Relations team to check current availability and book a viewing today.</p>
+    <a href="#" class="btn-primary">WhatsApp Us Now</a>
+  </div>
+</section>
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a href="#" class="logo"><span class="dot"></span>lyving</a>
+      <p>Premium coliving for the modern professional. Fully furnished, all-inclusive, beautifully managed.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Explore</h4>
+      <a href="#why">Why Lyving</a>
+      <a href="#locations">Locations</a>
+      <a href="#process">How It Works</a>
+      <a href="#testimonials">Reviews</a>
+    </div>
+    <div class="foot-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">For Property Owners</a>
+      <a href="#">FAQ</a>
+      <a href="#">Contact Us</a>
+    </div>
+    <div class="foot-col">
+      <h4>Get in touch</h4>
+      <a href="#">WhatsApp</a>
+      <a href="#">hello@lyving.my</a>
+      <a href="#">Kuala Lumpur, Malaysia</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Lyving Coliving. All rights reserved.</span>
+    <span>Privacy Policy · Terms</span>
+  </div>
+</footer>
+<script>
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  el.style.transitionDelay=(i%3)*0.08+'s';
+  io.observe(el);
+});
+window.addEventListener('scroll',()=>{
+  const n=document.querySelector('nav');
+  n.style.padding=window.scrollY>40?'12px 6vw':'18px 6vw';
+});
+document.querySelector('.burger').addEventListener('click',()=>{
+  document.querySelector('#locations').scrollIntoView();
+});
+</script>
+</body>
+</html>
